@@ -6,7 +6,11 @@ require('dotenv').config();
 const app = express();
 const PORT = process.env.PORT || 10000;
 
-// الاتصال بقاعدة بيانات Supabase عبر المتغيرات البيئية
+// التحقق من وجود المتغيرات البيئية لمنع توقف السيرفر
+if (!process.env.SUPABASE_URL || !process.env.SUPABASE_KEY) {
+    console.error("⚠️ خطأ: يرجى التأكد من إضافة SUPABASE_URL و SUPABASE_KEY في إعدادات Render (Environment Variables).");
+}
+
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 app.use(express.json());
@@ -25,12 +29,12 @@ app.post('/api/invoices', async (req, res) => {
 
         if (invError) throw invError;
         if (!insertedInvoice || insertedInvoice.length === 0) {
-            throw new Error("لم يتم إرجاع بيانات الفاتورة بعد الحفظ.");
+            throw new Error("لم يتم إرجاع بيانات الفاتورة بعد الحفظ بنجاح.");
         }
         
         const invoiceId = insertedInvoice[0].id;
 
-        // تجهيز البيانات لتتوافق مع جدول invoice_cars الموضح في قاعدة بياناتك
+        // تجهيز مصفوفة البيانات لتطابق جدول invoice_cars الخاص بك
         const itemsToInsert = carsData.map(car => ({
             invoice_id: invoiceId,
             cars_count: parseInt(car.cars) || 1,
@@ -40,14 +44,13 @@ app.post('/api/invoices', async (req, res) => {
             amount: parseFloat(car.amount) || 0.00
         }));
 
-        // إدخال البيانات في جدول التفاصيل الصحيح invoice_cars
+        // الحفظ في جدول التفاصيل المعتمد لديك invoice_cars
         const { error: itemsError } = await supabase
             .from('invoice_cars')
             .insert(itemsToInsert);
 
         if (itemsError) throw itemsError;
 
-        // إرجاع نجاح العملية مع الـ ID الفريد للانتقال الفوري للطباعة
         res.status(201).json({ success: true, invoiceId: invoiceId });
     } catch (error) {
         console.error("Error creating invoice:", error);
@@ -55,12 +58,12 @@ app.post('/api/invoices', async (req, res) => {
     }
 });
 
-// 2. جلب تفاصيل الفاتورة لعرضها في صفحة الطباعة invoice.html
+// 2. جلب تفاصيل الفاتورة لصفحة العرض والطباعة
 app.get('/api/invoices/:id', async (req, res) => {
     try {
         const invoiceId = req.params.id;
 
-        // جلب بيانات الفاتورة الأساسية
+        // جلب البيانات الأساسية للفاتورة
         const { data: invoice, error: invError } = await supabase
             .from('invoices')
             .select('*')
@@ -69,7 +72,7 @@ app.get('/api/invoices/:id', async (req, res) => {
 
         if (invError) throw invError;
 
-        // جلب تفاصيل الشاحنات التابعة لها من جدول invoice_cars
+        // جلب البيانات التفصيلية من جدول الشاحنات المعتمد لديك
         const { data: cars, error: carsError } = await supabase
             .from('invoice_cars')
             .select('*')
@@ -77,9 +80,9 @@ app.get('/api/invoices/:id', async (req, res) => {
 
         if (carsError) throw carsError;
 
-        // دمج البيانات لإرسالها كاملة للواجهة
+        // تجهيز البيانات بشكل منظم لإرسالها لـ invoice.html
         const responseData = {
-            invoice_no: invoice.id, // استخدام الـ id التلقائي ليكون هو رقم الفاتورة
+            invoice_no: invoice.id, 
             port: invoice.port,
             declaration: invoice.declaration,
             date: invoice.date,
@@ -93,9 +96,9 @@ app.get('/api/invoices/:id', async (req, res) => {
     }
 });
 
-// تشغيل السيرفر
+// تشغيل السيرفر بثبات على المنصة المنشودة
 app.listen(PORT, () => {
-    console.log(`//////////////////////////////////////////////////`);
-    console.log(`السيرفر يعمل الآن بثبات على البورت: ${PORT} 🚀`);
-    console.log(`//////////////////////////////////////////////////`);
+    console.log(`=========================================`);
+    console.log(`🚀 السيرفر الجمركي يعمل بنجاح الآن على البورت: ${PORT}`);
+    console.log(`=========================================`);
 });
