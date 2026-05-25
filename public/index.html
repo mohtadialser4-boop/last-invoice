@@ -1,163 +1,140 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>إنشاء فاتورة | مؤسسة الشهري</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-<style>
-body {
-  font-family: "Tajawal", sans-serif;
-  background: linear-gradient(135deg, #e9f2ff, #f9fbff);
-  padding: 40px;
-  text-align: center;
-}
-.container {
-  background: white;
-  padding: 30px 40px;
-  border-radius: 20px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
-  width: 480px;
-  margin: auto;
-  border-top: 6px solid #007BFF;
-}
-h1 {
-  color: #007BFF;
-  font-size: 24px;
-}
-label {
-  display: block;
-  text-align: right;
-  font-weight: bold;
-  margin-top: 10px;
-}
-input, select {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 8px;
-  margin-top: 5px;
-  font-family: inherit;
-}
-button {
-  background: linear-gradient(135deg, #007BFF, #0056b3);
-  color: white;
-  border: none;
-  padding: 12px 25px;
-  border-radius: 8px;
-  margin-top: 20px;
-  cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 3px 8px rgba(0,0,0,0.2);
-}
-button:hover {
-  transform: scale(1.05);
-  transition: 0.3s;
-}
-.car-entry {
-  border: 1px solid #ddd;
-  border-radius: 10px;
-  padding: 10px;
-  margin-top: 15px;
-  background: #f8faff;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>إنشاء فاتورة جديدة</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f7f6;
+      margin: 0;
+      padding: 40px;
+    }
+    .form-container {
+      max-width: 700px;
+      background: #fff;
+      margin: 0 auto;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    }
+    h2 {
+      text-align: center;
+      color: #333;
+      margin-bottom: 30px;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #555;
+    }
+    input, select {
+      width: 100%;
+      padding: 10px;
+      box-sizing: border-box;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    .car-entry {
+      border: 1px dashed #aaa;
+      padding: 15px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      background: #fafafa;
+    }
+    .car-entry .row {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .car-entry .row div {
+      flex: 1;
+    }
+    .btn {
+      padding: 12px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+    .btn-add {
+      background-color: #28a745;
+      color: white;
+      margin-bottom: 20px;
+    }
+    .btn-submit {
+      background-color: #007bff;
+      color: white;
+      width: 100%;
+    }
+  </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>📋 إدخال بيانات الفاتورة</h1>
+<div class="form-container">
+  <h2>نظام إدارة الفواتير والعبور</h2>
+  
+  <div class="form-group">
+    <label for="port">الميناء:</label>
+    <input type="text" id="port" value="ميناء سواكن">
+  </div>
 
-  <label>اسم المنفذ:</label>
-  <select id="port">
-    <option>البطحاء</option>
-    <option>الخفجي</option>
-    <option>الربع الخالي</option>
-    <option>الحديثة</option>
-    <option>سلوى</option>
-     <option>جسر الملك فهد</option>
-  </select>
+  <div class="form-group">
+    <label for="declaration">رقم الإشعار / البيان:</label>
+    <input type="text" id="declaration" placeholder="أدخل رقم البيان">
+  </div>
 
-  <label>رقم البيان:</label>
-  <input type="text" id="declaration">
+  <div class="form-group">
+    <label for="date">التاريخ:</label>
+    <input type="date" id="date">
+  </div>
 
-  <label>التاريخ:</label>
-  <input type="date" id="date">
-
+  <h3>بيانات السيارات والشاحنات</h3>
   <div id="carsContainer">
     <div class="car-entry">
-      <label>عدد السيارات:</label>
-      <input type="number" class="cars">
-
-      <label>رقم اللوحة:</label>
-      <input type="text" class="plate">
-
-      <label>اسم السائق:</label>
-      <input type="text" class="driver">
-
-      <label>نوع الرسوم:</label>
-      <select class="licenseType">
-       <option>تخليص</option>
-        <option>فسح</option>
-         <option>سدادات</option>
-          <option>أجور عمال</option>
-        <option>سداد مخالفات</option>
-        <option value="">ضريبة</option>
-        </select>
-
-      <label>المبلغ بالريال:</label>
-      <input type="number" class="amount">
+      <div class="row">
+        <div>
+          <label>عدد السيارات:</label>
+          <input type="number" class="cars" value="1">
+        </div>
+        <div>
+          <label>رقم اللوحة:</label>
+          <input type="text" class="plate" placeholder="مثال: 1234 أ ب">
+        </div>
+      </div>
+      <div class="row">
+        <div>
+          <label>اسم السائق:</label>
+          <input type="text" class="driver" placeholder="اسم السائق الكامل">
+        </div>
+        <div>
+          <label>نوع الرخصة:</label>
+          <select class="licenseType">
+            <option value="تخليص">تخليص</option>
+            <option value="ترانزيت">ترانزيت</option>
+            <option value="وارد">وارد</option>
+          </select>
+        </div>
+        <div>
+          <label>المبلغ:</label>
+          <input type="number" class="amount" value="50.00" step="0.01">
+        </div>
+      </div>
     </div>
   </div>
 
-  <button onclick="addCar()">➕ إضافة صف جديد</button>
-  <button onclick="generateInvoice()">إنشاء الفاتورة</button>
+  <button type="button" class="btn btn-add" onclick="addCar()">+ إضافة سيارة أخرى</button>
+  <button type="button" class="btn btn-submit" onclick="generateInvoice()">حفظ وإصدار الفاتورة 🚀</button>
 </div>
 
 <script>
-function addCar() {
-  const container = document.getElementById("carsContainer");
-  const clone = container.children[0].cloneNode(true);
-  clone.querySelectorAll("input").forEach(i => i.value = "");
-  container.appendChild(clone);
-}
+// الرابط الفعلي الخاص بسيرفرك على منصة Render
+const SERVER_URL = "https://last-invoice-4.onrender.com";
 
-async function generateInvoice() {
-  const port = document.getElementById("port").value;
-  const declaration = document.getElementById("declaration").value;
-  const date = document.getElementById("date").value;
-
-  const carsData = [];
-  document.querySelectorAll(".car-entry").forEach(entry => {
-    carsData.push({
-      cars: entry.querySelector(".cars").value,
-      plate: entry.querySelector(".plate").value,
-      driver: entry.querySelector(".driver").value,
-      licenseType: entry.querySelector(".licenseType").value,
-      amount: entry.querySelector(".amount").value
-    });
-  });
-
-  const data = { port, declaration, date, carsData };
-
-  try {
-    const response = await fetch('/api/invoices', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data)
-    });
-    
-    const result = await response.json();
-    if (result.success) {
-      window.location.href = `invoice.html?id=${result.invoiceId}`;
-    } else {
-      alert('حدث خطأ أثناء حفظ البيانات: ' + result.error);
-    }
-  } catch (error) {
-    console.error('Error:', error);
-    alert('فشل الاتصال بالسيرفر الخلفي.');
-  }
-}
-</script>
-
-</body>
-</html>
+// تعيين تاريخ اليوم تلقائياً عند
