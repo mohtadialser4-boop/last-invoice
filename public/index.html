@@ -12,7 +12,7 @@
             padding: 20px;
         }
         .container {
-            max-width: 800px;
+            max-width: 850px;
             background: #ffffff;
             margin: 0 auto;
             padding: 30px;
@@ -34,6 +34,7 @@
             margin-bottom: 8px;
             font-weight: bold;
             color: #34495e;
+            font-size: 14px;
         }
         input, select {
             width: 100%;
@@ -41,11 +42,11 @@
             border: 1px solid #bdc3c7;
             border-radius: 4px;
             box-sizing: border-box;
-            font-size: 16px;
+            font-size: 15px;
         }
         .card-row {
             border: 1px dashed #3498db;
-            padding: 15px;
+            padding: 20px;
             margin-top: 15px;
             border-radius: 6px;
             background: #fafbfc;
@@ -54,7 +55,7 @@
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 15px;
-            margin-bottom: 10px;
+            margin-bottom: 15px;
         }
         .grid-2 {
             display: grid;
@@ -84,9 +85,10 @@
 <div class="container">
     <h2>نظام إدارة الفواتير والعبور</h2>
     <form id="invoiceForm">
+        
         <div class="form-group">
             <label>الميناء:</label>
-            <input type="text" id="port" required placeholder="مثال: ميناء جدة الإسلامي">
+            <input type="text" id="port" required placeholder="مثال: ميناء جِدة الإسلامي">
         </div>
 
         <div class="grid-2">
@@ -104,14 +106,87 @@
         <div id="carsContainer">
             <div class="card-row">
                 <div class="grid-3">
-                    <div>
+                    <div class="form-group">
                         <label>عدد السيارات:</label>
                         <input type="number" class="cars-count" value="1" min="1" required>
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label>رقم اللوحة:</label>
-                        <input type="text" class="plate" required placeholder="أدخل اللوحة">
+                        <input type="text" class="plate" required placeholder="أدخل رقم اللوحة">
                     </div>
-                    <div>
+                    <div class="form-group">
                         <label>اسم السائق:</label>
-                        <input type
+                        <input type="text" class="driver-name" required placeholder="اسم السائق الثلاثي">
+                    </div>
+                </div>
+                
+                <div class="grid-2">
+                    <div class="form-group">
+                        <label>نوع الرخصة:</label>
+                        <select class="license-type">
+                            <option value="ترانزيت">ترانزيت</option>
+                            <option value="تخليص">تخليص</option>
+                            <option value="تصدير">تصدير</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>المبلغ الحالي (SAR):</label>
+                        <input type="number" class="amount" step="0.01" required placeholder="0.00">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit" class="btn-submit">حفظ وإصدار الفاتورة وتوجه للطباعة 🖨️</button>
+    </form>
+</div>
+
+<script>
+    // تعيين تاريخ اليوم تلقائياً عند فتح الصفحة لتسهيل العمل
+    document.getElementById('date').value = new Date().toISOString().split('T')[0];
+
+    document.getElementById('invoiceForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const port = document.getElementById('port').value;
+        const declaration = document.getElementById('declaration').value;
+        const date = document.getElementById('date').value;
+
+        // تجميع مصفوفة بيانات المركبة المضافة للتأكد من وجود كافة العناصر
+        const carsData = [];
+        const rows = document.querySelectorAll('.card-row');
+        
+        rows.forEach(row => {
+            carsData.push({
+                cars: row.querySelector('.cars-count').value,
+                plate: row.querySelector('.plate').value,
+                driver: row.querySelector('.driver-name').value,
+                licenseType: row.querySelector('.license-type').value,
+                amount: row.querySelector('.amount').value
+            });
+        });
+
+        try {
+            // إرسال البيانات للسيرفر عبر المسارات النسبية الآمنة والديناميكية
+            const response = await fetch('/api/invoices', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ port, declaration, date, carsData })
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+                // الانتقال الفوري لصفحة الفاتورة مع إرسال الـ ID الفريد الخاص بها
+                window.location.href = `invoice.html?id=${result.invoiceId}`;
+            } else {
+                alert('حدث خطأ أثناء حفظ الفاتورة: ' + result.error);
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            alert('فشل الاتصال بالسيرفر، تأكد من تحديث الصفحة وتجربتها مرة أخرى.');
+        }
+    });
+</script>
+</body>
+</html>
