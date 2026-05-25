@@ -1,201 +1,201 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>فاتورة نقل بالعبور | مؤسسة الشهري</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-<style>
-body {
-  font-family: "Tajawal", sans-serif;
-  background: radial-gradient(circle at top left, #f8faff, #e8f0ff);
-  padding: 40px;
-}
-.invoice {
-  background: white;
-  max-width: 850px;
-  margin: auto;
-  border-radius: 20px;
-  padding: 40px 60px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
-  border: 8px double #d4af37;
-  position: relative;
-}
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.header img { width: 100px; }
-h1 {
-  color: #007BFF;
-  text-align: center;
-  flex: 1;
-  font-size: 30px;
-  margin: 0;
-}
-.sub {
-  text-align: center;
-  font-weight: bold;
-  font-size: 22px;
-  color: #333;
-  border-bottom: 3px double #d4af37;
-  padding-bottom: 10px;
-  margin-bottom: 20px;
-}
-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 15px;
-}
-th, td {
-  border: 1px solid #ccc;
-  padding: 10px;
-  text-align: center;
-}
-th {
-  background-color: #007BFF;
-  color: white;
-}
-.total-container {
-  text-align: left;
-  margin-top: 20px;
-  font-size: 18px;
-  font-weight: bold;
-  color: #333;
-}
-.total-container span { color: #007BFF; }
-.footer {
-  text-align: center;
-  margin-top: 30px;
-  border-top: 2px dashed #d4af37;
-  padding-top: 15px;
-  position: relative;
-}
-.footer p { margin: 4px; }
-.footer img {
-  margin-top: 10px;
-  width: 100px;
-}
-.signature {
-  text-align: center;
-  font-weight: bold;
-  color: #444;
-  margin-top: 15px;
-}
-button {
-  display: block;
-  margin: 25px auto;
-  padding: 12px 25px;
-  background: linear-gradient(135deg, #28a745, #1d8030);
-  color: white;
-  border: none;
-  border-radius: 10px;
-  cursor: pointer;
-  font-size: 16px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.2);
-}
-button:hover {
-  transform: scale(1.05);
-  transition: 0.3s;
-}
-.watermark {
-  position: absolute;
-  bottom: 30px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 60px;
-  color: rgba(0, 0, 0, 0.05);
-  font-weight: bold;
-  pointer-events: none;
-}
-.stamp {
-  position: absolute;
-  bottom: 1px;
-  right: 600px;
-  width: 150px;
-}
-</style>
+  <meta charset="UTF-8">
+  <title>فاتورة نقل بالعبور</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #525659;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .controls {
+      width: 595px;
+      background: #fff;
+      padding: 10px 20px;
+      margin-bottom: 10px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .invoice-box {
+      width: 595px; /* مقاس A4 دقيق وثابت بالبكسل للطباعة النظيفة */
+      height: 842px;
+      background: #fff;
+      padding: 20px 30px;
+      box-sizing: border-box;
+      position: relative;
+      box-shadow: 0 0 10px rgba(0,0,0,0.3);
+    }
+    .header-img {
+      width: 100%;
+      height: auto;
+      margin-bottom: 5px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 20px;
+      margin: 5px 0 15px 0;
+      color: #111;
+      font-weight: bold;
+    }
+    .meta-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 15px;
+    }
+    .meta-table td {
+      padding: 4px 0;
+      font-size: 14px;
+      color: #222;
+    }
+    .meta-table td strong {
+      color: #000;
+    }
+    .main-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .main-table th, .main-table td {
+      border: 1px solid #000;
+      padding: 6px;
+      text-align: center;
+      font-size: 13px;
+      color: #000;
+    }
+    .main-table th {
+      background-color: #f2f2f2;
+      font-weight: bold;
+    }
+    .total-row td {
+      font-weight: bold;
+      background-color: #f9f9f9;
+    }
+    .footer-section {
+      position: absolute;
+      bottom: 20px;
+      left: 30px;
+      right: 30px;
+    }
+    .footer-img {
+      width: 100%;
+      height: auto;
+    }
+    .signature-space {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 40px;
+      padding: 0 10px;
+      font-size: 14px;
+      font-weight: bold;
+    }
+    .btn-pdf {
+      background-color: #e04f5f;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      font-size: 14px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .btn-pdf:hover {
+      background-color: #c93b4a;
+    }
+  </style>
 </head>
-
 <body>
 
-<div id="invoice" class="invoice">
-  <div class="header">
-     <img src="ff.png">
-    <h1>فاتورة نقل بالعبور</h1>
-     <img src="ff.png"> 
-  </div>
-<br>
-  <div class="sub">مؤسسة الشهري للتخليص الجمركي</div>
-
-  <table>
-    <tr><th>رقم الفاتورة</th><td id="invoiceIdViewer" style="font-weight: bold; color: #007BFF;">-</td></tr>
-    <tr><th>اسم المنفذ</th><td id="port"></td></tr>
-    <tr><th>رقم البيان</th><td id="declaration"></td></tr>
-    <tr><th>التاريخ</th><td id="date"></td></tr>
-    <tr><th>الرخصة</th><td>4669</td></tr>
-  </table>
-
-  <table style="margin-top:25px;">
-    <thead>
-      <tr>
-        <th>عدد السيارات</th>
-        <th>رقم اللوحة</th>
-        <th>اسم السائق</th>
-        <th>بلد المنشأ</th>
-        <th>نوع الرسوم</th>
-        <th>المبلغ (ريال)</th>
-      </tr>
-    </thead>
-    <tbody id="carsTableBody"></tbody>
-  </table>
-
-  <div class="total-container">
-    المبلغ الكلي: <span id="totalAmount"></span> ريال
-  </div>
-
-  <div class="footer">
-    <p id="phoneRow">📞 الجوال: 00966569891900</p>
-    <p>🏢 مؤسسة الشهري للتخليص الجمركي</p>
-    <div class="signature">_</div>
-    <img src="Sc.png" alt="ختم مؤسسة الهاجري" class="stamp">
-  </div>
-
-  <div class="watermark">الشهري</div>
+<div class="controls">
+  <label style="font-weight: bold; cursor: pointer;">
+    <input type="checkbox" id="showPhone" onchange="togglePhone()" checked> إظهار رقم الجوال أسفل الفاتورة
+  </label>
+  <button class="btn-pdf" onclick="generatePDF()">تحميل الفاتورة PDF 📄</button>
 </div>
 
-<label style="display:block; text-align:center; margin-top:20px; font-weight:bold;">
-  <input type="checkbox" id="showPhone" onchange="togglePhone()" checked>
-  إظهار رقم الجوال في الفاتورة
-</label>
+<div class="invoice-box" id="invoice">
+  <img src="ff.png" alt="Header" class="header-img">
+  
+  <h1 id="invoiceTitle">فاتورة نقل بالعبور</h1>
 
-<button onclick="generatePDF()">🖨️ طباعة / حفظ PDF</button>
+  <table class="meta-table">
+    <tr>
+      <td style="width: 50%;"><strong>الميناء:</strong> <span id="port"></span></td>
+      <td style="width: 50%; text-align: left;"><strong>التاريخ:</strong> <span id="date"></span></td>
+    </tr>
+    <tr>
+      <td style="width: 50%;"><strong>رقم الإشعار / البيان:</strong> <span id="declaration"></span></td>
+      <td style="width: 50%; text-align: left;"></td>
+    </tr>
+  </table>
+
+  <table class="main-table">
+    <thead>
+      <tr>
+        <th style="width: 8%;">العدد</th>
+        <th style="width: 22%;">رقم اللوحة</th>
+        <th style="width: 30%;">اسم السائق</th>
+        <th style="width: 12%;">الجنسية</th>
+        <th style="width: 14%;">نوع الرخصة</th>
+        <th style="width: 14%;">المبلغ ($)</th>
+      </tr>
+    </thead>
+    <tbody id="carsTableBody">
+      </tbody>
+    <tfoot>
+      <tr class="total-row">
+        <td colspan="5" style="text-align: left; padding-left: 15px;">الإجمالي الكلي:</td>
+        <td><span id="totalAmount">0.00</span></td>
+      </tr>
+    </tfoot>
+  </table>
+
+  <div class="footer-section">
+    <div class="signature-space">
+      <div>توقيع المستلم: ............................</div>
+      <div>ختم وتوقيع المكتب: ............................</div>
+    </div>
+    <img src="Sc.png" alt="Footer" class="footer-img" id="phoneRow">
+  </div>
+</div>
 
 <script>
+// الرابط الفعلي الخاص بسيرفرك على منصة Render
+const SERVER_URL = "https://last-invoice-4.onrender.com";
+
 window.onload = async () => {
+  // جلب الـ ID الخاص بالفاتورة من الرابط العلوي للمتصفح
   const urlParams = new URLSearchParams(window.location.search);
   const invoiceId = urlParams.get('id');
-  
+
   if (!invoiceId) {
-    alert("لم يتم تحديد رقم فاتورة صحيح!");
+    alert("خطأ: لم يتم العثور على معرّف الفاتورة في الرابط!");
     return;
   }
 
-  document.getElementById("invoiceIdViewer").textContent = invoiceId;
-
   try {
-    const response = await fetch(`/api/invoices/${invoiceId}`);
-    if (!response.ok) throw new Error("فشل في جلب البيانات");
-    
+    // الاستعلام عن الفاتورة من السيرفر وبدوره يجلبها من Supabase
+    const response = await fetch(`${SERVER_URL}/api/invoices/${invoiceId}`);
+    if (!response.ok) throw new Error("تعذر جلب بيانات الفاتورة من قاعدة البيانات");
+
     const data = await response.json();
 
+    // إدراج البيانات الأساسية والرقم المتسلسل النظيف المستخرج من قاعدة البيانات
     document.getElementById("port").textContent = data.port;
     document.getElementById("declaration").textContent = data.declaration;
     document.getElementById("date").textContent = data.date;
+    
+    // تحديث العنوان ليحتوي على الرقم التسلسلي التلقائي والمحمي من التكرار
+    document.getElementById("invoiceTitle").textContent = `فاتورة نقل بالعبور (رقم: ${data.invoice_no})`;
 
     const tbody = document.getElementById("carsTableBody");
     let total = 0;
@@ -203,23 +203,27 @@ window.onload = async () => {
     data.carsData.forEach(row => {
       const tr = document.createElement("tr");
       tr.innerHTML = `
-        <td>${row.cars}</td>
+        <td>${row.cars_count}</td>
         <td>${row.plate}</td>
-        <td>${row.driver}</td>
+        <td>${row.driver_name}</td>
         <td>أجنبي</td>
-        <td>${row.licenseType}</td>
-        <td>${row.amount}</td>
+        <td>${row.license_type}</td>
+        <td>${parseFloat(row.amount).toFixed(2)}</td>
       `;
       tbody.appendChild(tr);
       total += Number(row.amount || 0);
     });
 
     document.getElementById("totalAmount").textContent = total.toFixed(2);
+
+    // حفظ أسماء السائقين في الذاكرة الحالية لاستخدامها في تسمية ملف الـ PDF عند التحميل
+    window.currentInvoiceDrivers = data.carsData.map(c => c.driver_name).filter(Boolean);
+
   } catch (error) {
-    console.error(error);
-    alert("حدث خطأ أثناء تحميل تفاصيل الفاتورة");
+    alert("خطأ: " + error.message);
   }
 
+  // إدارة وضع حالة تشغيل/إخفاء الجوال من الذاكرة المحلية لتسهيل العمل
   const saved = localStorage.getItem("showPhone");
   const checkbox = document.getElementById("showPhone");
   if (saved === "false") {
@@ -242,27 +246,24 @@ async function generatePDF() {
   const pdf = new jsPDF("p", "pt", "a4");
   const invoice = document.getElementById("invoice");
 
-  const urlParams = new URLSearchParams(window.location.search);
-  const invoiceId = urlParams.get('id') || '';
-
-  const tbody = document.getElementById("carsTableBody");
-  const names = Array.from(tbody.querySelectorAll("tr")).map(tr => tr.children[2].textContent).filter(Boolean);
-
-  let fileName = `فاتورة_الشهري_رقم_${invoiceId}`;
+  // توليد اسم الملف الذكي تلقائياً بناءً على أسماء السائقين الفعليين داخل الفاتورة الحالية
+  const names = window.currentInvoiceDrivers || [];
+  let fileName = "فاتورة_الشهري";
   if (names.length === 1) {
-    fileName += `_${names[0]}`;
+    fileName = `فاتورة_الشهري_${names[0]}`;
+  } else if (names.length > 1) {
+    fileName = `فاتورة_الشهري_${names.join("_و_")}`;
   }
   fileName = fileName.replace(/[\\/:*?"<>|]/g, "_") + ".pdf";
 
-  const canvas = await html2canvas(invoice, { scale: 1.2, useCORS: true });
-  const imgData = canvas.toDataURL("image/jpeg", 0.6);
-  const imgWidth = 550;
-  const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-  pdf.addImage(imgData, "JPEG", 25, 15, imgWidth, imgHeight);
+  // تحويل الفاتورة إلى صورة عالية الدقة لحفظ جودة الخطوط العربية والأشكال
+  const canvas = await html2canvas(invoice, { scale: 1.5, useCORS: true });
+  const imgData = canvas.toDataURL("image/jpeg", 0.7);
+  
+  // ملء مساحة صفحة الـ A4 بالكامل بشكل منسق ونظيف
+  pdf.addImage(imgData, "JPEG", 0, 0, 595, 842);
   pdf.save(fileName);
 }
 </script>
-
 </body>
 </html>
