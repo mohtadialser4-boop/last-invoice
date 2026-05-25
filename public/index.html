@@ -1,140 +1,117 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-  <meta charset="UTF-8">
-  <title>إنشاء فاتورة جديدة</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background-color: #f4f7f6;
-      margin: 0;
-      padding: 40px;
-    }
-    .form-container {
-      max-width: 700px;
-      background: #fff;
-      margin: 0 auto;
-      padding: 30px;
-      border-radius: 8px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.05);
-    }
-    h2 {
-      text-align: center;
-      color: #333;
-      margin-bottom: 30px;
-    }
-    .form-group {
-      margin-bottom: 20px;
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: 600;
-      color: #555;
-    }
-    input, select {
-      width: 100%;
-      padding: 10px;
-      box-sizing: border-box;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-      font-size: 16px;
-    }
-    .car-entry {
-      border: 1px dashed #aaa;
-      padding: 15px;
-      margin-bottom: 15px;
-      border-radius: 6px;
-      background: #fafafa;
-    }
-    .car-entry .row {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 10px;
-    }
-    .car-entry .row div {
-      flex: 1;
-    }
-    .btn {
-      padding: 12px 20px;
-      font-size: 16px;
-      cursor: pointer;
-      border: none;
-      border-radius: 4px;
-      font-weight: bold;
-    }
-    .btn-add {
-      background-color: #28a745;
-      color: white;
-      margin-bottom: 20px;
-    }
-    .btn-submit {
-      background-color: #007bff;
-      color: white;
-      width: 100%;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء فاتورة جديدة - نظام إدارة الفواتير</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            background: #ffffff;
+            margin: 0 auto;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+        h2 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #34495e;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #bdc3c7;
+            border-radius: 4px;
+            box-sizing: border-box;
+            font-size: 16px;
+        }
+        .card-row {
+            border: 1px dashed #3498db;
+            padding: 15px;
+            margin-top: 15px;
+            border-radius: 6px;
+            background: #fafbfc;
+        }
+        .grid-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+        button {
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+        .btn-submit {
+            width: 100%;
+            background-color: #2ecc71;
+            color: white;
+            padding: 14px;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            margin-top: 25px;
+        }
+        .btn-submit:hover { background-color: #27ae60; }
+    </style>
 </head>
 <body>
 
-<div class="form-container">
-  <h2>نظام إدارة الفواتير والعبور</h2>
-  
-  <div class="form-group">
-    <label for="port">الميناء:</label>
-    <input type="text" id="port" value="ميناء سواكن">
-  </div>
-
-  <div class="form-group">
-    <label for="declaration">رقم الإشعار / البيان:</label>
-    <input type="text" id="declaration" placeholder="أدخل رقم البيان">
-  </div>
-
-  <div class="form-group">
-    <label for="date">التاريخ:</label>
-    <input type="date" id="date">
-  </div>
-
-  <h3>بيانات السيارات والشاحنات</h3>
-  <div id="carsContainer">
-    <div class="car-entry">
-      <div class="row">
-        <div>
-          <label>عدد السيارات:</label>
-          <input type="number" class="cars" value="1">
+<div class="container">
+    <h2>نظام إدارة الفواتير والعبور</h2>
+    <form id="invoiceForm">
+        <div class="form-group">
+            <label>الميناء:</label>
+            <input type="text" id="port" required placeholder="مثال: ميناء جدة الإسلامي">
         </div>
-        <div>
-          <label>رقم اللوحة:</label>
-          <input type="text" class="plate" placeholder="مثال: 1234 أ ب">
-        </div>
-      </div>
-      <div class="row">
-        <div>
-          <label>اسم السائق:</label>
-          <input type="text" class="driver" placeholder="اسم السائق الكامل">
-        </div>
-        <div>
-          <label>نوع الرخصة:</label>
-          <select class="licenseType">
-            <option value="تخليص">تخليص</option>
-            <option value="ترانزيت">ترانزيت</option>
-            <option value="وارد">وارد</option>
-          </select>
-        </div>
-        <div>
-          <label>المبلغ:</label>
-          <input type="number" class="amount" value="50.00" step="0.01">
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <button type="button" class="btn btn-add" onclick="addCar()">+ إضافة سيارة أخرى</button>
-  <button type="button" class="btn btn-submit" onclick="generateInvoice()">حفظ وإصدار الفاتورة 🚀</button>
-</div>
+        <div class="grid-2">
+            <div class="form-group">
+                <label>رقم الإشعار / البيان:</label>
+                <input type="text" id="declaration" required placeholder="أدخل الرقم">
+            </div>
+            <div class="form-group">
+                <label>التاريخ:</label>
+                <input type="date" id="date" required>
+            </div>
+        </div>
 
-<script>
-// الرابط الفعلي الخاص بسيرفرك على منصة Render
-const SERVER_URL = "https://last-invoice-4.onrender.com";
-
-// تعيين تاريخ اليوم تلقائياً عند
+        <h3>بيانات السيارات والشاحنات</h3>
+        <div id="carsContainer">
+            <div class="card-row">
+                <div class="grid-3">
+                    <div>
+                        <label>عدد السيارات:</label>
+                        <input type="number" class="cars-count" value="1" min="1" required>
+                    </div>
+                    <div>
+                        <label>رقم اللوحة:</label>
+                        <input type="text" class="plate" required placeholder="أدخل اللوحة">
+                    </div>
+                    <div>
+                        <label>اسم السائق:</label>
+                        <input type
